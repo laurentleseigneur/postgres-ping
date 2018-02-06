@@ -1,8 +1,19 @@
+sudo: required
+
 language: go
+
+services:
+  - docker
 
 go:
   - master
 
+before_install:
+- docker pull lleseigneur/bonita-postgres
+- docker run -d --name postgres -p 5432:5432 lleseigneur/bonita-postgres
+- docker ps
+
 script:
   - go get -t ./...
   - go build src/postgres-ping.go
+  - gu run src/postgres-ping.go "postgres" 5432 "bonita" "bonita" "bpm"
