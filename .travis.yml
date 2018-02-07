@@ -16,4 +16,4 @@ before_install:
 script:
   - go get -t ./...
   - go build src/postgres-ping.go
-  - go run src/postgres-ping.go "postgres" 15432 "bonita" "bonita" "bpm"
+  - go run src/postgres-ping.go "127.0.0.1" 15432 "bonita" "bonita" "bpm"
