@@ -12,8 +12,12 @@ before_install:
 - docker pull lleseigneur/bonita-postgres
 - docker run -d --name postgres -p 127.0.0.1:15432:5432 lleseigneur/bonita-postgres
 - docker ps
+- export HOST_IP_ADDRESS="$(/sbin/ip route|awk '/default/ { print $3 }')"
 
 script:
   - go get -t ./...
   - go build src/postgres-ping.go
-  - go run src/postgres-ping.go "127.0.0.1" 15432 "bonita" "bonita" "bpm"
+  - go run src/postgres-ping.go $HOST_IP_ADDRESS 15432 "bonita" "bonita" "bpm"
+
+after_script:
+  - docker stop postgres
